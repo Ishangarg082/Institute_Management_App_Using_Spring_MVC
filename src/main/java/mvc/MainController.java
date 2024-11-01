@@ -204,6 +204,78 @@ public class MainController {
 		model.addAttribute("attendance", att);
 		return "attendance";
 	}
+	
+	@RequestMapping("/searchbycourse")
+	public String searchbycourse(HttpServletRequest request, Model model,@RequestParam("courseid") String courseid) {
+		List<Attendance> att = atdao.getbycourse(courseid);
+		model.addAttribute("attendance", att);
+		return "attendance";
+	}
+	
+	@RequestMapping("/adduser")
+	public String adduser(Model model,@RequestParam("username") String username,@RequestParam("name") String name ,@RequestParam("pass") String pass, @RequestParam("role") String role) {
+		userDao.add(username, pass, role, name);
+		List<User> user = userDao.getusers();
+		model.addAttribute("users", user);
+		return "adminconsole";
+	}
+	
+	@RequestMapping("/deleteuser")
+	public String deleteuser(Model model,@RequestParam("userId") String username) {
+		userDao.remove(username);
+		List<User> user = userDao.getusers();
+		model.addAttribute("users", user);
+		 return "adminconsole";
+	}
+	
+	@RequestMapping("/addcourse")
+	public String addcourse(Model model,@RequestParam("CourseId") String courseid,@RequestParam("CourseName") String name ) {
+		cd.add(courseid, name);
+		List<Course> course = cd.getall();
+		model.addAttribute("courses", course);
+		return "courses";
+	}
+	
+	@RequestMapping("/deletecourse")
+	public String deletecourse(Model model,@RequestParam("courseid") String courseid) {
+		cd.delete(courseid);
+		List<Course> course = cd.getall();
+		model.addAttribute("courses", course);
+		return "courses";
+	}
+	
+	@RequestMapping("/editcourse")
+	public String editcourse(Model model,@RequestParam("courseid") String courseid) {
+		Course course = cd.get(courseid);
+		model.addAttribute("courses", course);
+		return "updatecourse";
+	}
+	
+	@RequestMapping("/updatecourse")
+	public String updatecourse(Model model,@RequestParam("CourseId") String courseid,@RequestParam("CourseName") String name) {
+		cd.delete(courseid);
+		cd.add(courseid, name);
+		List<Course> course = cd.getall();
+		model.addAttribute("courses", course);
+		return "courses";
+	}
+	
+	
+	@RequestMapping("/edituser")
+	public String editUser(@RequestParam("userId") String userId, Model model) {
+	    User user = userDao.get(userId);
+	    model.addAttribute("user", user);
+	    return "updateuser";
+	}
+	
+	@RequestMapping("/updateuser")
+	public String updateuser(Model model,@RequestParam("username") String username,@RequestParam("name") String name ,@RequestParam("pass") String pass, @RequestParam("role") String role) {
+		userDao.remove(username);
+		userDao.add(username, pass, role, name);
+		List<User> users = userDao.getusers();
+		model.addAttribute("users", users);
+		 return "adminconsole";
+	}
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request	) {

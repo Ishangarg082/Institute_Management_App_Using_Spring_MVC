@@ -86,6 +86,18 @@ public class AttendanceDao {
 			}
 		});
 	}
+	
+	public List<Attendance> getbycourse(String courseid) {
+		return this.template.execute(new HibernateCallback<List<Attendance>>() {
+			@Override
+			public List<Attendance> doInHibernate(Session session) {
+				String hql = "FROM Attendance at WHERE at.courseid = :courseid";
+				Query<Attendance> query = session.createQuery(hql, Attendance.class);
+				query.setParameter("courseid", courseid);
+				return query.list();
+			}
+		});
+	}
 
 	public Attendance get(String attendanceid) {
 		Attendance att = this.template.load(Attendance.class, attendanceid);

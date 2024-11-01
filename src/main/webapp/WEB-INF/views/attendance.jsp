@@ -145,13 +145,13 @@
     <!-- Search Form -->
     <div style="text-align: center; margin-bottom: 20px;">
         <h2>Search Attendance Records</h2>
-        <form action="${pageContext.request.contextPath}/searchbyroll" method="get">
+        <form action="${pageContext.request.contextPath}/searchbyroll" method="post">
             <label for="rollnumber">Roll Number:</label>
             <input type="text" id="rollnumber" name="rollnumber" placeholder="Enter Roll Number">
             <input type="submit" value="Search">
         </form>
         
-        <form action="${pageContext.request.contextPath}/searchbycourse" method="get">
+        <form action="${pageContext.request.contextPath}/searchbycourse" method="post">
             <label for="courseid">Course ID:</label>
             <input type="text" id="courseid" name="courseid" placeholder="Enter Course ID">
             <input type="submit" value="Search">

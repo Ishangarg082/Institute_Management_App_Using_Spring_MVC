@@ -183,12 +183,12 @@
                     <td>${course.name}</td>
                     <td>${course.courseid}</td>
                     <td>
-                        <form action="deleteUser.jsp" method="post">
-                            <input type="hidden" name="userId" value="${course.courseid}">
+                        <form action="${pageContext.request.contextPath}/deletecourse" method="post">
+                            <input type="hidden" name="courseid" value="${course.courseid}">
                             <input type="submit" value="Delete">
                         </form>
-                        <form action="updateUser.jsp" method="post">
-                            <input type="hidden" name="userId" value="${course.courseid}">
+                        <form action="${pageContext.request.contextPath}/editcourse" method="post">
+                            <input type="hidden" name="courseid" value="${course.courseid}">
                             <input type="submit" value="Update">
                         </form>
                     </td>
@@ -198,7 +198,7 @@
 
         <div class="action-container">
             <h2>Add New Course</h2>
-            <form action="addUser.jsp" method="post">
+            <form action="${pageContext.request.contextPath}/addcourse" method="post">
                 <label for="CourseName">Course Name:</label>
                 <input type="text" id="CourseName" name="CourseName" required>
                 <label for="CourseId">Course ID:</label>

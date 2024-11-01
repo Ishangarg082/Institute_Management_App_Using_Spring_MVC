@@ -125,12 +125,12 @@
             <td>${user.name}</td>
             <td>${user.role}</td>
             <td>
-                <form action="deleteUser.jsp" method="post" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/deleteuser" method="post" style="display:inline;">
                     <input type="hidden" name="userId" value="${user.user_id}">
                     <input type="submit" value="Delete">
                 </form>
-                 <form action="deleteUser.jsp" method="post" style="display:inline;">
-                    <input type="hidden" name="userId" value="${course.courseid}">
+                 <form action="${pageContext.request.contextPath}/edituser" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="${user.user_id}">
                     <input type="submit" value="Update">
                 </form>
             </td>
@@ -140,8 +140,8 @@
 
     <div class="action-container">
         <h2>Add New User</h2>
-        <form action="addUser.jsp" method="post">
-            <label for="username">Username:</label>
+        <form action="${pageContext.request.contextPath}/adduser" method="post">
+            <label for="username">UserId:</label>
             <input type="text" id="username" name="username" required>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -149,9 +149,9 @@
             <input type="password" id="pass" name="pass" required>
             <label for="role">Role:</label>
             <select id="role" name="role" required>
-                <option value="Write">admin</option>
-                <option value="Read">teacher</option>
-                <option value="All">support</option>
+                <option value="admin">admin</option>
+                <option value="teacher">teacher</option>
+                <option value="support">support</option>
             </select>
             <input type="submit" value="Add User">
         </form>
