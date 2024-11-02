@@ -64,6 +64,5 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="factory" />
     </bean>
-    <bean id="MyAspect" class="mvc.MyAspect"/>
 
 </beans>

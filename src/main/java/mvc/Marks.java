@@ -13,7 +13,6 @@ public class Marks {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="marksid")
 	private int marksid;
 

@@ -93,4 +93,25 @@ public class MarksDao {
 		
 	}
 
+	@Transactional
+	public void deletemark(int marksid) {
+		this.template.execute(new HibernateCallback<Void>(){
+			@Override
+			public Void doInHibernate(Session session) {
+				String hql = "delete from Marks mark where mark.marksid = :marksid";
+				Query<Void> query = session.createQuery(hql);
+				query.setParameter("marksid", marksid);
+				query.executeUpdate();
+				return null;
+			}
+			
+		});
+		
+	}
+	
+	public List<Marks> getall(){
+		List<Marks> marks = this.template.loadAll(Marks.class);
+		return marks;
+	}
+
 }

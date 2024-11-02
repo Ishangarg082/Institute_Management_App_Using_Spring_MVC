@@ -236,6 +236,66 @@ public class MainController {
 	public String marks( Model model) {
 		return "marks";
 	}
+	
+	@RequestMapping("searchMarksbyroll")
+	public String searchMarksbyroll(@RequestParam("rollnumber") String rollnumber,Model model) {
+		List<Marks> mark = markdao.getmarksByRollNumber(rollnumber);
+		Student student = StudentDao.get(rollnumber);
+		List<MarkData> markdata = new ArrayList<>();
+		
+		for(Marks marks:mark) {
+			Course cs = cd.get(marks.getCourseid());
+			MarkData data = new MarkData();
+			data.setCourseid(cs.getCourseid());
+			data.setCoursename(cs.getName());
+			data.setStudentname(student.getName());
+			data.setRollnumber(rollnumber);
+			data.setMarks(marks.getMarks());
+			data.setMarksid(marks.getMarksid());
+			
+			markdata.add(data);
+			
+		}
+		model.addAttribute("mark",markdata);
+		return "marks";
+	}
+	
+	@RequestMapping("searchMarksbycourse")
+	public String searchMarksbycourse(@RequestParam("courseid") String courseid,Model model) {
+		List<Marks> mark = markdao.getmarksByCourseId(courseid);
+		List<MarkData> markdata = new ArrayList<>();
+		
+		for(Marks marks:mark) {
+			Student student = StudentDao.get(marks.getRollnumber());
+			Course cs = cd.get(marks.getCourseid());
+			MarkData data = new MarkData();
+			data.setCourseid(cs.getCourseid());
+			data.setCoursename(cs.getName());
+			data.setStudentname(student.getName());
+			data.setRollnumber(marks.getRollnumber());
+			data.setMarks(marks.getMarks());
+			data.setMarksid(marks.getMarksid());
+			
+			markdata.add(data);
+			
+		}
+		model.addAttribute("mark",markdata);
+		return "marks";
+	}
+	
+	@RequestMapping("addMarks")
+	public String addMarks(@RequestParam("rollnumber") String rollnumber,@RequestParam("courseid") String courseid, @RequestParam("marks") String marks) {
+		List<Marks> mark = markdao.getall();
+		int i = mark.size();
+		markdao.add(i+1, rollnumber, courseid, marks);
+		return "marks";
+	}
+	
+	@RequestMapping("deleteMarks")
+	public String deleteMarks(@RequestParam("marksid") int marksid) {
+		markdao.deletemark(marksid);
+		return "marks";
+	}
 
 	@RequestMapping("/fees")
 	public String fees(HttpServletRequest request, Model model) {

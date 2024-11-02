@@ -125,32 +125,40 @@
 
     <div class="content">
         <h2>Search Marks</h2>
-        <form action="${pageContext.request.contextPath}/searchMarks" method="get" style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <form action="${pageContext.request.contextPath}/searchMarksbyroll" method="post" style="display: flex; justify-content: center; margin-bottom: 20px;">
             <input type="text" name="rollnumber" placeholder="Enter Roll Number" required>
-            <input type="text" name="courseid" placeholder="Enter Course ID (optional)">
+            <input type="submit" value="Search">
+        </form>	
+        <form action="${pageContext.request.contextPath}/searchMarksbycourse" method="post" style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <input type="text" name="courseid" placeholder="Enter Course ID" required>
             <input type="submit" value="Search">
         </form>
-
 
         <table>
             <tr>
                 <th>Marks ID</th>
+                <th>Roll Number</th>
+                <th>Student Name</th>
                 <th>Course ID</th>
+                <th>Course Name</th>
                 <th>Marks</th>
                 <th>Action</th>
             </tr>
-            <c:forEach var="mark" items="${marks}">
+            <c:forEach var="mark" items="${mark}">
                 <tr>
-                    <td>${mark.marksId}</td>
-                    <td>${mark.courseId}</td>
+                    <td>${mark.marksid}</td>
+                    <td>${mark.rollnumber}</td>
+                    <td>${mark.studentname}</td>
+                    <td>${mark.courseid}</td>
+                    <td>${mark.coursename}</td>
                     <td>${mark.marks}</td>
                     <td>
                         <form action="${pageContext.request.contextPath}/deleteMarks" method="post" style="display: inline;">
-                            <input type="hidden" name="marksId" value="${mark.marksId}">
+                            <input type="hidden" name="marksid" value="${mark.marksid}">
                             <input type="submit" value="Delete">
                         </form>
                         <form action="${pageContext.request.contextPath}/updateMarks" method="post" style="display: inline;">
-                            <input type="hidden" name="marksId" value="${mark.marksId}">
+                            <input type="hidden" name="marksid" value="${mark.marksid}">
                             <input type="submit" value="Update">
                         </form>
                     </td>
@@ -161,15 +169,14 @@
         <div class="action-container">
             <h2>Add New Marks</h2>
             <form action="${pageContext.request.contextPath}/addMarks" method="post">
-                <label for="marksId">Marks ID:</label>
-                <input type="text" id="marksId" name="marksId" required>
-                <label for="courseId">Course ID:</label>
-                <input type="text" id="courseId" name="courseId" required>
+                <label for="rollnumber">Roll Number:</label>
+                <input type="text" id="rollnumber" name="rollnumber" required>
+                <label for="courseid">Course ID:</label>
+                <input type="text" id="courseid" name="courseid" required>
                 <label for="marks">Marks:</label>
                 <input type="text" id="marks" name="marks" required>
                 <input type="submit" value="Add Marks">
             </form>
-
         </div>
     </div>
 </body>
