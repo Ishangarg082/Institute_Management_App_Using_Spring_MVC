@@ -1,5 +1,6 @@
 package mvc;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class AttendanceDao {
 	}
 
 	@Transactional
-	public void add(int attendanceid, String rollnumber, Date date, String Attendance, String courseid) {
+	public void add(int attendanceid, String rollnumber, String date, String Attendance, String courseid) {
 		Attendance att = new Attendance();
 		att.setAttendance(Attendance);
 		att.setDate(date);
@@ -39,7 +40,7 @@ public class AttendanceDao {
 	}
 
 	@Transactional
-	public void update(String rollnumber, Date date, String Attendance, int attendanceid,String courseid) {
+	public void update(String rollnumber, String date, String Attendance, int attendanceid,String courseid) {
 		Attendance att = new Attendance();
 		att.setAttendance(Attendance);
 		att.setDate(date);
@@ -51,7 +52,7 @@ public class AttendanceDao {
 	}
 
 	@Transactional
-	public void delete(String rollnumber) {
+	public void deletestudent(String rollnumber) {
 
 		List<Attendance> at = getbyroll(rollnumber);
 	
@@ -73,7 +74,7 @@ public class AttendanceDao {
 		});
 	}
 
-	public List<Attendance> getbydate(Date date) {
+	public List<Attendance> getbydate(String date) {
 		return this.template.execute(new HibernateCallback<List<Attendance>>() {
 			@Override
 			public List<Attendance> doInHibernate(Session session) {
@@ -101,13 +102,26 @@ public class AttendanceDao {
 		Attendance att = this.template.load(Attendance.class, attendanceid);
 		return att;
 	}
-
+	@Transactional
 	public void deletecourse(String courseid) {
 		List<Attendance> att = getbycourse(courseid);
 		for(Attendance attendance :att) {
-			this.template.delete(att);
+			this.template.delete(attendance);
 		}
 		
+	}
+	@Transactional
+	public void delete(String rollnumber , String courseid, String date) {
+		List<Attendance> att = getbyroll(rollnumber);
+		for(Attendance attendance : att) {
+			if(attendance.getCourseid().equals(courseid) && attendance.getDate().equals(date)) {
+				this.template.delete(attendance);
+		}
+		}
+	}
+	
+	public List<Attendance> getall(){
+		return this.template.loadAll(Attendance.class);
 	}
 	
 

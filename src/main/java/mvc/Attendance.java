@@ -21,7 +21,7 @@ public class Attendance {
 	private String rollnumber;
 	
 	@Column(name="date")
-	private Date date;
+	private String date;
 	
 	@Column(name="attendance")
 	private String attendance;
@@ -45,11 +45,11 @@ public class Attendance {
 		this.rollnumber = rollnumber;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -76,7 +76,7 @@ public class Attendance {
 		return "Attendance [attendanceid=" + attendanceid + ", rollnumber=" + rollnumber + ", date=" + date
 				+ ", attendance=" + attendance + ", courseid=" + courseid + "]";
 	}
-	public Attendance(String rollnumber, Date date, String attendance, int attendanceid, String courseid) {
+	public Attendance(String rollnumber, String date, String attendance, int attendanceid, String courseid) {
 		super();
 		this.rollnumber = rollnumber;
 		this.date = date;

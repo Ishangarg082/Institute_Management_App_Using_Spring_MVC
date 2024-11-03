@@ -1,10 +1,12 @@
 package mvc;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -176,7 +178,7 @@ public class MainController {
 		ced.delete(rollnumber);
 		feedao.delete(rollnumber);
 		markdao.delete(rollnumber);
-		atdao.delete(rollnumber);
+		atdao.deletestudent(rollnumber);
 		List<Student> student = StudentDao.getall();
 		model.addAttribute("Student", student);
 		return "students";
@@ -233,17 +235,17 @@ public class MainController {
 	}
 
 	@RequestMapping("/marks")
-	public String marks( Model model) {
+	public String marks(Model model) {
 		return "marks";
 	}
-	
+
 	@RequestMapping("searchMarksbyroll")
-	public String searchMarksbyroll(@RequestParam("rollnumber") String rollnumber,Model model) {
+	public String searchMarksbyroll(@RequestParam("rollnumber") String rollnumber, Model model) {
 		List<Marks> mark = markdao.getmarksByRollNumber(rollnumber);
 		Student student = StudentDao.get(rollnumber);
 		List<MarkData> markdata = new ArrayList<>();
-		
-		for(Marks marks:mark) {
+
+		for (Marks marks : mark) {
 			Course cs = cd.get(marks.getCourseid());
 			MarkData data = new MarkData();
 			data.setCourseid(cs.getCourseid());
@@ -252,20 +254,20 @@ public class MainController {
 			data.setRollnumber(rollnumber);
 			data.setMarks(marks.getMarks());
 			data.setMarksid(marks.getMarksid());
-			
+
 			markdata.add(data);
-			
+
 		}
-		model.addAttribute("mark",markdata);
+		model.addAttribute("mark", markdata);
 		return "marks";
 	}
-	
+
 	@RequestMapping("searchMarksbycourse")
-	public String searchMarksbycourse(@RequestParam("courseid") String courseid,Model model) {
+	public String searchMarksbycourse(@RequestParam("courseid") String courseid, Model model) {
 		List<Marks> mark = markdao.getmarksByCourseId(courseid);
 		List<MarkData> markdata = new ArrayList<>();
-		
-		for(Marks marks:mark) {
+
+		for (Marks marks : mark) {
 			Student student = StudentDao.get(marks.getRollnumber());
 			Course cs = cd.get(marks.getCourseid());
 			MarkData data = new MarkData();
@@ -275,25 +277,40 @@ public class MainController {
 			data.setRollnumber(marks.getRollnumber());
 			data.setMarks(marks.getMarks());
 			data.setMarksid(marks.getMarksid());
-			
+
 			markdata.add(data);
-			
+
 		}
-		model.addAttribute("mark",markdata);
+		model.addAttribute("mark", markdata);
 		return "marks";
 	}
-	
+
 	@RequestMapping("addMarks")
-	public String addMarks(@RequestParam("rollnumber") String rollnumber,@RequestParam("courseid") String courseid, @RequestParam("marks") String marks) {
+	public String addMarks(@RequestParam("rollnumber") String rollnumber, @RequestParam("courseid") String courseid,
+			@RequestParam("marks") String marks) {
 		List<Marks> mark = markdao.getall();
 		int i = mark.size();
-		markdao.add(i+1, rollnumber, courseid, marks);
+		markdao.add(i + 1, rollnumber, courseid, marks);
 		return "marks";
 	}
-	
+
 	@RequestMapping("deleteMarks")
 	public String deleteMarks(@RequestParam("marksid") int marksid) {
 		markdao.deletemark(marksid);
+		return "marks";
+	}
+
+	@RequestMapping("editmarks")
+	public String editmarks(@RequestParam("marksid") int marksid, Model model) {
+		Marks mark = markdao.get(marksid);
+		model.addAttribute("marks", mark);
+		return "updatemarks";
+	}
+
+	@RequestMapping("updatemarks")
+	public String updatemarks(@RequestParam("marksid") int marksid, @RequestParam("rollnumber") String rollnumber,
+			@RequestParam("courseid") String courseid, @RequestParam("marks") String marks) {
+		markdao.update(marksid, rollnumber, courseid, marks);
 		return "marks";
 	}
 
@@ -341,6 +358,22 @@ public class MainController {
 		return "attendance";
 	}
 
+	@RequestMapping("/addattendance")
+	public String addattendance(@RequestParam("rollnumber") String rollnumber, @RequestParam("date") String date,
+			@RequestParam("courseid") String courseid, @RequestParam("status") String status, Model model) {
+		List<Attendance> att = atdao.getall();
+		int i = att.size();
+		atdao.add(i+1, rollnumber, date, status, courseid);
+		return "attendance";
+	}
+	
+	@RequestMapping("/updateattendance")
+	public String updateattendance(@RequestParam("attendanceid") int attendanceid,@RequestParam("rollnumber") String rollnumber, @RequestParam("date") String date,
+			@RequestParam("courseid") String courseid, @RequestParam("status") String status, Model model) {
+		atdao.update(rollnumber, date, status, attendanceid, courseid);
+		return "attendance";
+	}
+
 	@RequestMapping("/searchattbyroll")
 	public String searchattbyroll(HttpServletRequest request, Model model,
 			@RequestParam("rollnumber") String rollnumber) {
@@ -357,6 +390,14 @@ public class MainController {
 		return "attendance";
 	}
 
+	@RequestMapping("deleteAttendance")
+	public String deleteAttendance(@RequestParam("rollnumber") String rollnumber,
+			@RequestParam("courseid") String courseid, @RequestParam("date") String date) {
+
+		atdao.delete(rollnumber, courseid, date);
+		return "attendance";
+	}
+
 	@RequestMapping("/adduser")
 	public String adduser(Model model, @RequestParam("username") String username, @RequestParam("name") String name,
 			@RequestParam("pass") String pass, @RequestParam("role") String role) {
@@ -365,7 +406,8 @@ public class MainController {
 		model.addAttribute("users", user);
 		return "adminconsole";
 	}
-
+	
+	
 	@RequestMapping("/deleteuser")
 	public String deleteuser(Model model, @RequestParam("userId") String username) {
 		userDao.remove(username);

@@ -176,14 +176,15 @@
             <td>${attendance.attendance}</td>
             <td>
                 <form action="${pageContext.request.contextPath}/deleteAttendance" method="post" style="display:inline;">
-                    <input type="hidden" name="rollNumber" value="${attendance.rollnumber}">
-                    <input type="hidden" name="courseId" value="${attendance.courseid}">
+                    <input type="hidden" name="rollnumber" value="${attendance.rollnumber}">
+                    <input type="hidden" name="courseid" value="${attendance.courseid}">
                     <input type="hidden" name="date" value="${attendance.date}">
                     <input type="submit" value="Delete">
                 </form>
-                <form action="${pageContext.request.contextPath}/updateAttendance" method="post" style="display:inline;">
-                    <input type="hidden" name="rollNumber" value="${attendance.rollnumber}">
-                    <input type="hidden" name="courseId" value="${attendance.courseid}">
+                <form action="${pageContext.request.contextPath}/updateattendance" method="post" style="display:inline;">
+                <input type="hidden" name="attendanceid" value="${attendance.attendanceid}">
+                    <input type="hidden" name="rollnumber" value="${attendance.rollnumber}">
+                    <input type="hidden" name="courseid" value="${attendance.courseid}">
                     <input type="hidden" name="date" value="${attendance.date}">
                     <label for="status-${attendance.rollnumber}">Status:</label>
                     <select name="status" id="status-${attendance.rollnumber}">
@@ -200,10 +201,10 @@
     <div class="action-container">
         <h2>Add New Attendance</h2>
         <form action="${pageContext.request.contextPath}/addattendance" method="post">
-            <label for="rollNumber">Roll Number:</label>
-            <input type="text" id="rollNumber" name="rollNumber" required>
-            <label for="courseId">Course ID:</label>
-            <input type="text" id="courseId" name="courseId" required>
+            <label for="rollnumber">Roll Number:</label>
+            <input type="text" id="rollnumber" name="rollnumber" required>
+            <label for="courseid">Course ID:</label>
+            <input type="text" id="courseid" name="courseid" required>
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required>
             <label for="status">Status:</label>

@@ -157,7 +157,7 @@
                             <input type="hidden" name="marksid" value="${mark.marksid}">
                             <input type="submit" value="Delete">
                         </form>
-                        <form action="${pageContext.request.contextPath}/updateMarks" method="post" style="display: inline;">
+                        <form action="${pageContext.request.contextPath}/editmarks" method="post" style="display: inline;">
                             <input type="hidden" name="marksid" value="${mark.marksid}">
                             <input type="submit" value="Update">
                         </form>

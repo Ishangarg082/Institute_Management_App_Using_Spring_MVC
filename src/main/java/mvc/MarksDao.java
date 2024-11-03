@@ -46,7 +46,7 @@ public class MarksDao {
 		this.template.update(mark);
 	}
 
-	public Marks get(Long marksid) {
+	public Marks get(int marksid) {
 		Marks mark = this.template.load(Marks.class, marksid);
 		return mark;
 
